@@ -40,7 +40,7 @@
         });
         function getProductList() {
             var settings = {
-                "url": "http://0.0.0.0:4000",
+                "url": "https://9drrcoqrnd.execute-api.us-east-1.amazonaws.com/staging",
                 "method": "POST",
                 "timeout": 0,
                 "headers": {
@@ -135,7 +135,7 @@
                 var query = "mutation ($gift_giver_id : String!,$success_url : String!,$cancel_url : String!,$product_id : String!,$input : GiftGiverInput!,){\n    giftGiver_Stripe(gift_giver_id : $gift_giver_id,success_url : $success_url,cancel_url : $cancel_url,product_id : $product_id,input : $input, ){\n        url id\n    }\n}\n"
                 console.log("query + " + query)
                 var settings = {
-                    "url": "http://0.0.0.0:4000",
+                    "url": "https://9drrcoqrnd.execute-api.us-east-1.amazonaws.com/staging",
                     "method": "POST",
                     "timeout": 0,
                     "headers": {
@@ -198,7 +198,7 @@
             
             if (email && password) {
                 var settings = {
-                    "url": "http://0.0.0.0:4000",
+                    "url": "https://9drrcoqrnd.execute-api.us-east-1.amazonaws.com/staging",
                     "method": "POST",
                     "timeout": 0,
                     "headers": {
