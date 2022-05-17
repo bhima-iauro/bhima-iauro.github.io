@@ -1,0 +1,307 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 10%;
+    padding-right: 10%;
+    display: grid;
+    grid-template-rows: 150px 500px 50px;
+    grid-template-columns: repeat(2,1fr);
+}
+
+
+
+
+.TopContainer{
+    padding-top: 3%;
+    color: purple;
+    font-weight: bold;
+    font-size: xx-large;
+    font-family:sans-serif;
+    text-align: center;
+    grid-column: 1/-1;
+}
+
+.MiddleContainer{
+    color: black;
+    font-weight: bold;
+    font-family:sans-serif;
+    font-size: medium;
+    display: grid;
+    grid-column: 1/-1;
+    grid-template-columns: repeat(2,0.5fr);
+    padding: 2%;
+}
+.BottomContainer{
+    grid-column: 1/-1;  
+    position: relative;  
+}
+
+.button{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.MiddleContainer .LeftContainer .input-box input{
+    height: 30px;
+    margin-bottom: 3%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    font-size: 16px;
+}
+
+.MiddleContainer .LeftContainer .input-box .details{
+    font-weight: 500;
+    margin-bottom: 10px;
+
+}
+
+.MiddleContainer .LeftContainer .input-box {
+    margin: 15px 0 2px 0;
+    width: calc(100%/2-20px);
+}
+
+.MiddleContainer .RightContainer .input-box .details{
+    font-weight: 500;
+    margin-bottom: 5px;
+
+}
+
+.MiddleContainer .RightContainer .input-box input{
+    height: 30px;
+    margin-bottom: 2px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    font-size: 16px;
+}
+
+
+.MiddleContainer .RightContainer .input-box {
+    margin: 15px 0 2px 0;
+    width: calc(100%/2-20px);
+}
+
+.Buy-details .type{
+    display: flex;
+    width: 80%;
+    margin: 14px 0;
+    justify-content: space-between;
+}
+.Buy-details .type label{
+    display: flex;
+    align-items: center;
+}
+.Buy-details .type .option{
+    height: 18px;
+    width: 18px;
+    background: #7a7a7a;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 5px solid transparent;
+}
+
+.Plan-details .plantype{
+    display: flex;
+    width: 80%;
+    margin: 14px 0;
+}
+.Plan-details .plantype label{
+    display: flex;
+    align-items: center;
+}
+.Plan-details .plantype .option{
+    height: 18px;
+    width: 18px;
+    background: #7a7a7a;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 5px solid transparent;
+}
+
+
+
+
+#option-1:checked ~ .type .one,
+#option-2:checked ~ .type .two{
+   
+    border-color: #d9d9d9;
+    background: #9b59b6;
+}
+
+#option-3:checked ~ .plantype .three,
+#option-4:checked ~ .plantype .four{
+   
+    border-color: #d9d9d9;
+    background: #9b59b6;
+}
+
+
+form input[type="radio"]{
+    display: none;
+}
+
+.button input{
+    height: 100%;
+    width: 100%;
+}
+.mainBody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #242d60;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Helvetica Neue', 'Ubuntu', sans-serif;
+    height: 100vh;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  section {
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 112px;
+    border-radius: 6px;
+    justify-content: space-between;
+  }
+  .product {
+    display: flex;
+  }
+  .description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .para {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.154px;
+    color: #242d60;
+    height: 100%;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+.btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+    margin-bottom:10px;
+    opacity: 0.8;
+    align-self: center;
+  }
+.cancel {
+    background-color:#242d60;
+  }
+  body {font-family: Arial, Helvetica, sans-serif;}
+  * {box-sizing: border-box;}
+  
+  /* Button used to open the contact form - fixed at the bottom of the page */
+  .open-button {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+  }
+  
+  /* The popup form - hidden by default */
+  .form-popup {
+    display: none;
+    position: absolute;
+      top:25%;
+  left:25%;
+    border: 3px solid #f1f1f1;
+    z-index: 0;
+  }
+  
+  /* Add styles to the form container */
+  .form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+  }
+  
+  /* Full-width input fields */
+  .form-container input[type=text], .form-container input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  /* When the inputs get focus, do something */
+  .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  /* Set a style for the submit/login button */
+  .form-container .btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+  
+  /* Add a red background color to the cancel button */
+  .form-container .cancel {
+    background-color: red;
+  }
+  
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
+   /*
+  img {
+    border-radius: 6px;
+    margin: 10px;
+    width: 54px;
+    height: 57px;
+  }
+  h3,
+  h5 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.154px;
+    color: #242d60;
+    margin: 0;
+  }
+  h5 {
+    opacity: 0.5;
+  } */
+ 
+ 

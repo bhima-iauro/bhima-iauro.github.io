@@ -1,0 +1,126 @@
+<html>
+
+<head>
+  <title>Transaction canceled</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+    #spinner {
+      visibility: hidden;
+      width: 80px;
+      height: 80px;
+
+      border: 2px solid #f3f3f3;
+      border-top: 3px solid #f25a41;
+      border-radius: 100%;
+
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+
+      animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #spinner.show {
+      visibility: visible;
+    }
+  </style>
+</head>
+
+<script>
+  $(document).ready(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const session_id = urlParams.get('session_id');
+    console.log("sdfsdf" + session_id);
+
+    const alleyoop_login_id = localStorage.getItem('alleyoop_login_id');
+    const dadFirstName = sessionStorage.getItem('dadFirstName');
+    const dadLastName = sessionStorage.getItem('dadLastName');
+    const daughterFirstName = sessionStorage.getItem('daughterFirstName');
+    const daughterLastName = sessionStorage.getItem('daughterLastName');
+    const dadEmail = sessionStorage.getItem('dadEmail');
+    const purchaserEmail = sessionStorage.getItem('purchaserEmail');
+    const productId = sessionStorage.getItem('productId');
+    const product = sessionStorage.getItem('product');
+
+    if (session_id && alleyoop_login_id && dadEmail) {
+      showSpinner()
+      var inputJson = {
+        purchaserEmail: purchaserEmail,
+        purchaserId: alleyoop_login_id,
+        dadEmail: dadEmail,
+        dadFirstName: dadFirstName,
+        dadLastName: dadLastName,
+        productId: productId,
+        product: product
+      }
+      var settings = {
+        "url": "http://0.0.0.0:4000",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+          query: "mutation ($input : GiftGiverPurchasedPlanInput!){\n    giftGiver_SavePurchasedPlan(input:$input){\n  dadEmail\n  promoCode\n  }\n}",
+          variables: { "input": inputJson }
+        })
+      };
+
+      $.ajax(settings).done(function (response) {
+        console.log(response);
+        hideSpinner()
+        if (response.data.giftGiver_SavePurchasedPlan) {
+
+        } else {
+          if (response.errors.length > 0) {
+            alert(response.errors[0].message)
+          } else {
+            alert("Something went wrong, please try again later")
+          }
+        }
+
+      });
+    } else {
+      var base_url = window.location.origin;
+      window.location.href = base_url;
+
+    }
+  });
+  function showSpinner() {
+    const spinner = document.getElementById("spinner");
+    spinner.className = "show";
+  }
+
+  function hideSpinner() {
+    const spinner = document.getElementById("spinner");
+    spinner.className = spinner.className.replace("show", "");
+  }
+  function buttonClick() {
+    var base_url = window.location.origin;
+      window.location.href = base_url
+  }
+</script>
+
+<body class="mainBody">
+  <section>
+    <p class="para">Transaction successful</p>
+    <button type="button" class="btn cancel" onclick="buttonClick()">Ok</button>
+  </section>
+  <div id="spinner"></div>
+</body>
+
+</html>
