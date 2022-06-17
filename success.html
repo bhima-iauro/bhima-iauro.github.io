@@ -42,6 +42,7 @@
 
 <script>
   $(document).ready(function () {
+    var serverUrl = "http://localhost:4000"
     const urlParams = new URLSearchParams(window.location.search);
     const session_id = urlParams.get('session_id');
     console.log("sdfsdf" + session_id);
@@ -55,6 +56,11 @@
     const purchaserEmail = sessionStorage.getItem('purchaserEmail');
     const productId = sessionStorage.getItem('productId');
     const product = sessionStorage.getItem('product');
+    const addressLine1 = sessionStorage.getItem('addressLine1');
+    const addressLine2 = sessionStorage.getItem('addressLine2');
+    const addressCity = sessionStorage.getItem('addressCity');
+    const addressState = sessionStorage.getItem('addressState');
+    const addressZip = sessionStorage.getItem('addressZip');
 
     if (session_id && alleyoop_login_id && dadEmail) {
       showSpinner()
@@ -65,10 +71,15 @@
         dadFirstName: dadFirstName,
         dadLastName: dadLastName,
         productId: productId,
-        product: product
+        product: product,
+        addressLine1: addressLine1,
+        addressLine2: addressLine2,
+        userCity: addressCity,
+        userState: addressState,
+        userZipcode: addressZip,
       }
       var settings = {
-        "url": "https://9drrcoqrnd.execute-api.us-east-1.amazonaws.com/staging",
+        "url": serverUrl,
         "method": "POST",
         "timeout": 0,
         "headers": {
@@ -121,6 +132,7 @@
     <button type="button" class="btn cancel" onclick="buttonClick()">Ok</button>
   </section>
   <div id="spinner"></div>
+ 
 </body>
 
 </html>

@@ -6,3 +6,4 @@ function show1(){
           document.getElementById('right-container').style.display='block';
       }
   }
+  

@@ -10,37 +10,38 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
+        var serverUrl = "http://localhost:4000"
         var allProducts = [];
         function onEmaiChange() {
             console.log("onEmaiChange ")
-            var emailInput = document.getElementById("email");
-            var alleyoop_login_email = localStorage.getItem("alleyoop_login_email")
-            passwordDiv.style.display = "block";
-            if(alleyoop_login_email) {
-                if (alleyoop_login_email == emailInput.value) {
-                    passwordDiv.style.display = "none";
-                }else {
-                    passwordDiv.style.display = "block";
-                }
-            }
+            // var emailInput = document.getElementById("email");
+            // var alleyoop_login_email = localStorage.getItem("alleyoop_login_email")
+            // // passwordDiv.style.display = "block";
+            // if(alleyoop_login_email) {
+            //     if (alleyoop_login_email == emailInput.value) {
+            //         passwordDiv.style.display = "none";
+            //     }else {
+            //         passwordDiv.style.display = "block";
+            //     }
+            // }
         }
         $(document).ready(function () {
             getProductList()
-            var id = localStorage.getItem("alleyoop_login_id")
-            var alleyoop_login_email = localStorage.getItem("alleyoop_login_email")
+            // var id = localStorage.getItem("alleyoop_login_id")
+            // var alleyoop_login_email = localStorage.getItem("alleyoop_login_email")
             
-            var emailInput = document.getElementById("email");
-            // var passwordDiv = document.getElementById("passwordDiv");
-            if (id) {
-                emailInput.value = alleyoop_login_email
-                passwordDiv.style.display = "none";
-            }else {
-                passwordDiv.style.display = "block";
-            }
+            // var emailInput = document.getElementById("email");
+            // // var passwordDiv = document.getElementById("passwordDiv");
+            // if (id) {
+            //     emailInput.value = alleyoop_login_email
+            //     // passwordDiv.style.display = "none";
+            // }else {
+            //     // passwordDiv.style.display = "block";
+            // }
         });
         function getProductList() {
             var settings = {
-                "url": "https://9drrcoqrnd.execute-api.us-east-1.amazonaws.com/staging",
+                "url": serverUrl,
                 "method": "POST",
                 "timeout": 0,
                 "headers": {
@@ -80,13 +81,19 @@
         function submitButtonClick() {
             console.log("email is ")
             var email = document.getElementById("email").value ?? undefined;
-            var password = document.getElementById("password").value ?? undefined;
+           // var password = document.getElementById("password").value ?? undefined;
 
             var dadFirstName = document.getElementById("dadFirstName").value ?? undefined;
             var dadLastName = document.getElementById("dadLastName").value ?? undefined;
             var daughterFirstName = document.getElementById("daughterFirstName").value ?? undefined;
             var daughterLastName = document.getElementById("daughterLastName").value ?? undefined;
             var dadEmail = document.getElementById("dadEmail").value ?? undefined;
+            var addressLine1 = document.getElementById("addressLine1").value ?? undefined;
+            var addressLine2 = document.getElementById("addressLine2").value ?? undefined;
+            var addressCity = document.getElementById("addressCity").value ?? undefined;
+            var addressState = document.getElementById("addressState").value ?? undefined;
+            var addressZip = document.getElementById("addressZip").value ?? undefined;
+
 
             var base_url = window.location.origin;
             var successUrl = base_url + "/success.html"
@@ -106,15 +113,14 @@
             // }
             console.log("check4 is " + dadFirstName)
             console.log("check4 is " + dadLastName)
-            console.log("check4 is " + daughterFirstName)
-            console.log("check4 is " + daughterLastName)
+            // console.log("check4 is " + daughterFirstName)
+            // console.log("check4 is " + daughterLastName)
             console.log("check4 is " + dadEmail)
-            if(!(dadFirstName && dadLastName && dadEmail)){
-                alert("Please fill all the required information")
-                return;
-            }
+           
             if(option1) {
-                dadEmailFinal = dadEmailFinal 
+                dadEmailFinal = email 
+                dadFirstName = ""
+                dadLastName = "";
             }else {
                 dadEmailFinal = dadEmail
             }
@@ -129,13 +135,20 @@
                 alert("Please select your plan")
                 return;
             }
-            var id = localStorage.getItem("alleyoop_login_id") ?? ""
-            if (email && (id || password)) {
+           if(option2) {
+            if(!(dadEmailFinal && dadFirstName && dadLastName)){
+                alert("Please fill all the required information")
+                return;
+            }
+          }
+            // var id = localStorage.getItem("alleyoop_login_id") ?? ""
+            // if (email && (id || password)) {
+            if (email) {
                 
-                var query = "mutation ($gift_giver_id : String!,$success_url : String!,$cancel_url : String!,$product_id : String!,$input : GiftGiverInput!,){\n    giftGiver_Stripe(gift_giver_id : $gift_giver_id,success_url : $success_url,cancel_url : $cancel_url,product_id : $product_id,input : $input, ){\n        url id\n    }\n}\n"
+                var query = "mutation giftGiver_Stripe($gift_giver_id : String!,$success_url : String!,$cancel_url : String!,$product_id : String!,$input : GiftGiverInput!,){\n    giftGiver_Stripe(gift_giver_id : $gift_giver_id,success_url : $success_url,cancel_url : $cancel_url,product_id : $product_id,input : $input, ){\n        url \n    }\n}\n"
                 console.log("query + " + query)
                 var settings = {
-                    "url": "https://9drrcoqrnd.execute-api.us-east-1.amazonaws.com/staging",
+                    "url": serverUrl,
                     "method": "POST",
                     "timeout": 0,
                     "headers": {
@@ -143,9 +156,10 @@
                     },
                     "data": JSON.stringify({
                         query: query,
-                        variables:  {"gift_giver_id":id,"success_url":successUrl,
+                        variables:  {"gift_giver_id":"","success_url":successUrl,
                         "cancel_url":cancelUrl,"product_id":selectedProduct.product,
-                        "input":{"email":email,"password":password}}
+                        "input":{"email":email}}
+                        // "input":{"email":email,"password":password}}
                     })
                 };
 
@@ -162,7 +176,11 @@
                         sessionStorage.setItem('purchaserEmail', email)
                         sessionStorage.setItem('productId', selectedProduct.product)
                         sessionStorage.setItem('product', JSON.stringify(selectedProduct))
-
+                        sessionStorage.setItem('addressLine1',addressLine1)
+                        sessionStorage.setItem('addressLine2',addressLine2)
+                        sessionStorage.setItem('addressCity',addressCity)
+                        sessionStorage.setItem('addressState',addressState)
+                        sessionStorage.setItem('addressZip',addressZip)
                         window.location.replace(response.data.giftGiver_Stripe.url);
                     } else {
                         if (response.errors.length > 0) {
@@ -179,7 +197,7 @@
                     }
                 });
             } else {
-                alert("Please enter email and password")
+                alert("Please enter purchaser email")
             }
         }
         function getConfirmation() {
@@ -198,7 +216,7 @@
             
             if (email && password) {
                 var settings = {
-                    "url": "https://9drrcoqrnd.execute-api.us-east-1.amazonaws.com/staging",
+                    "url": serverUrl,
                     "method": "POST",
                     "timeout": 0,
                     "headers": {
@@ -219,8 +237,8 @@
 
                         localStorage.setItem('alleyoop_login_id', response.data.login_giftGiver.id)
                         localStorage.setItem('alleyoop_login_email', email)
-                        var passwordDiv = document.getElementById("passwordDiv");
-                        passwordDiv.style.display = 'none';
+                        // var passwordDiv = document.getElementById("passwordDiv");
+                        // passwordDiv.style.display = 'none';
                         closeForm()
                     } else {
                         if (response.errors.length > 0) {
@@ -241,37 +259,37 @@
 
 <body>
     <main>
-        <div class="TopContainer">
+        <div class="TopContainer" style="color:#7542BB ">
             <p>Buy for you & your Daughter</p>
-            <p>or GIFT for some of yours favorites!</p>
+            <p>or GIFT for some of your favorites!</p>
         </div>
         <div class="MiddleContainer">
-            <div class="LeftContainer">
-                <span style="color:purple">Account Info:</span>
+            <div class="LeftContainer" >
+                <span style="color:#7542BB ">Purchaser's Info:</span>
                 <form action="#">
                     <div class="input-box">
-                        <span class="details">
+                        <span class="details" style="padding-right: 10px;">
                             Purchaser's Email
                         </span>
-                        <input type="text" placeholder="Email" onkeypress="onEmaiChange()" id="email" required>
+                        <input  type="text" placeholder="Email" onkeypress="onEmaiChange()" id="email" required>
                     </div>
-                    <div class="input-box" id="passwordDiv">
-                        <span class="details">
+                    <!-- <div class="input-box" id="passwordDiv">
+                        <span class="details" style="padding-right: 15px;">
                             Create Password
                         </span>
                         <input type="text" placeholder="Create Password" id="password" required>
-                    </div>
+                    </div> -->
                     <div class="Buy-details" style="font-weight: normal;">
                         <input type="radio" name="Buy" id="option-1" value="self" onchange="show1()">
                         <input type="radio" name="Buy" id="option-2" checked="checked" value="daughters" onchange="show1()">
                         <div class="type">
-                            <span>Buy for: </span>
+                            <span style="margin-right: 20px; ">Buy for: </span>
                             <label for="option-1">
-                                <span class="option one"></span>
+                                <span class="option one" style="padding-right: 8px;"></span>
                                 <span class="Buy">Self</span>
                             </label>
-                            <label for="option-2">
-                                <span class="option two"></span>
+                            <label for="option-2" style="padding-right: 14px;">
+                                <span class="option two" style="padding-right: 8px;"></span>
                                 <span class="Buy">One of my favorite Dads and Daughters</span>
                             </label>
                         </div>
@@ -280,18 +298,18 @@
                     </div>
                     <br>
                     <div class="Plan-details" style="font-weight: normal;">
-                        <p style="color:purple">Choose your preferred plan</p>
+                        <span style="color:#7542BB ">Choose your preferred plan</span>
 
                         <input type="radio" name="Plan" checked="checked" id="option-3">
                         <input type="radio" name="Plan" id="option-4">
-                        <div class="plantype" style="font-size: 50;">
+                        <div class="plantype" style="font-size: 30; ">
                             <label for="option-3">
-                                <span class="option three"></span>
+                                <span class="option three" style="padding-right: 8px;"></span>
                                 <span class="Plan" id="plan1"></span>
                             </label>
 
-                            <label for="option-4">
-                                <span class="option four"></span>
+                            <label for="option-4" style="padding-right: 14px;" >
+                                <span class="option four" style="padding-right: 8px;"></span>
                                 <span class="Plan" id="plan2"></span>
                             </label>
                         </div>
@@ -300,19 +318,20 @@
             </div>
 
 
-            <div class="RightContainer" id="right-container">
-                <span style="color:purple">Recipient Info:</span>
-                <p>Who is this for? (Items sent in main are addressed to the recipients)</p>
+            <div class="RightContainer" id="right-container" style="width: 100%;">
+                <span style="color:#7542BB ">Recipient Info:</span>
+                <p style="font-size: 14px;font-weight:600; font-family:sans-serif; margin-top:5px">Who is this for? (Physical materials sent will be addressed to these recipients"
+                    Dad's mailing address needs to be added here)</p>
                 <form action="#">
                     <div class="input-box">
-                        <span class="details" style="padding-right: 6%;">
+                        <span class="details" style="padding-right: 66px; ">
                             Dad
                         </span>
                         <input type="text" id="dadFirstName" placeholder="First Name" required>
                         <input type="text" id="dadLastName" placeholder="Last Name" required>
                     </div>
                     <div class="input-box">
-                        <span class="details">
+                        <span class="details" style="padding-right: 29px;">
                             Daughter
                         </span>
                         <input type="text" id="daughterFirstName" placeholder="First Name" required>
@@ -326,30 +345,32 @@
                     </div> -->
 
                     <div class="input-box" style="padding-bottom: 5%">
-                        <span class="details">
+                        <span class="details" style="padding-right: 10px;">
                             Dad's Email
                         </span>
                         <input type="text" id="dadEmail" placeholder="Email" required>
-                        <p>(Dad will be sent confirmation code to log-in)</p>
+                        <p style="font-size: 14px;font-weight:600; font-family:sans-serif;margin-top:5px">(Dad will be sent confirmation code to log-in)</p>
                     </div>
 
-                    <!-- <div class="input-box">
+                    <div class="input-box">
                         <p class="details">
                             Recipient's Mailing Address:
                         </p>
-                        <input type="text" placeholder="Address 1 (Number and Street)" style="width:80%">
-                        <input type="text" placeholder="Address 2 " style="width:80%">
-                        <input type="text" placeholder="City" style="width:30%">
-                        <input type="text" placeholder="State" style="width:10%">
-                        <input type="text" placeholder="ZIP/Postal Code" style="width:30%">
-                    </div> -->
+                        <input type="text" id="addressLine1" placeholder="Address 1 (Number and Street)" style="width:80%; margin-top:8px">
+                        <input type="text" id="addressLine2" placeholder="Address 2 " style="width:80%; margin-top:6px">
+                        <input type="text" id="addressCity" placeholder="City" style="width:27%; margin-top:6px">
+                        <input type="text" id="addressState" placeholder="State" style="width:21%;">
+                        <input type="text" id="addressZip" placeholder="ZIP/Postal Code" style="width:30%">
+                    </div>
                 </form>
             </div>
         </div>
 
         <div class="BottomContainer">
             <div class="button">
-                <input type="submit" value="Submit" onclick="submitButtonClick()">
+                <input type="submit" value="Submit" style="font-size: 18px; padding-left:10px; padding-right:10px; padding-top:3px; padding-bottom:3px; 
+                font-weight:400; font-family:sans-serif; color:white; border: 2px solid transparent;; border-radius: 5px; 
+    background-color:#7542BB" onclick="submitButtonClick()">
             </div>
         </div>
         <div class="form-popup" id="myForm">
